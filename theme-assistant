@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+import sys
+
+# Később itt hívjuk meg a core modult, pl:
+# from theme_assistant.core import ThemeManager
+# if __name__ == "__main__":
+#     manager = ThemeManager()
+#     manager.apply_theme()
+
+print("Theme Assistant is starting...")

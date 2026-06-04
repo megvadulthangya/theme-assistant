@@ -1,0 +1,38 @@
+version: 1
+engines:
+  - id: gtk2
+    module: engines.gtk2
+    description: "Manage GTK2 settings (~/.gtkrc-2.0)"
+  - id: gtk3
+    module: engines.gtk3
+    description: "Manage GTK3 settings (~/.config/gtk-3.0/settings.ini)"
+  - id: gtk4
+    module: engines.gtk4
+    description: "Manage GTK4 settings and symlinks"
+  - id: gtk5
+    module: engines.gtk5
+    description: "Future GTK5 support (placeholder)"
+  - id: gtk6
+    module: engines.gtk6
+    description: "Future GTK6 support (placeholder)"
+  - id: icons
+    module: engines.icons
+    description: "Handle icon theme and index.theme"
+  - id: cursors
+    module: engines.cursors
+    description: "Handle cursor theme and size"
+  - id: fonts
+    module: engines.fonts
+    description: "Handle font rendering settings"
+  - id: xsettingsd
+    module: engines.xsettingsd
+    description: "Manage xsettingsd configuration"
+  - id: flatpak
+    module: engines.flatpak
+    description: "Manage Flatpak overrides and theme installation"
+  - id: qt_kvantum
+    module: engines.qt_kvantum
+    description: "Manage Qt/Kvantum theme and settings"
+  - id: awesome_wm
+    module: engines.awesome_wm
+    description: "Manage AwesomeWM configuration (theme, autostart, widgets, layouts, etc.)"

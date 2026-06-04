@@ -1,0 +1,120 @@
+profile:
+  name: "Nordic Darker"
+  author: "User"
+  description: "Nordic dark theme for GTK and AwesomeWM"
+
+gtk:
+  gtk_theme: "Nordic-darker"
+  icon_theme: "Nordic"
+  cursor_theme: "Nordic-cursors"
+  cursor_size: 24
+  font_name: "Sans 10"
+  font_hinting: "slight"
+  font_antialiasing: "grayscale"
+  font_rgba_order: "rgb"
+  text_scaling_factor: 1.0
+  color_scheme: "prefer-dark"
+  event_sounds: true
+  input_feedback_sounds: false
+  toolbar_style: "both-horiz"
+  toolbar_icon_size: "large"
+  button_images: false
+  menu_images: false
+
+export:
+  settings_ini: true
+  gtkrc_2_0: true
+  index_theme: true
+  xsettingsd: true
+  gtk4_symlinks: true
+  flatpak_overrides:
+    gtk_theme: true
+    icon_theme: true
+  flatpak_install_theme: false
+
+awesome_wm:
+  autostart_and_power:
+    screen_locker_profile: "long_timers"
+    screen_locker_commands:
+      short_timers: "xset s 300 300; xset dpms 900 900 900; xss-lock -- /usr/local/bin/safe-lock.sh"
+      long_timers: "xset s 300 3000; xset dpms 3600 3600 3600; xss-lock -- /usr/local/bin/safe-lock.sh"
+      lock_only: "xset s 600 600; xset -dpms; xss-lock -- /usr/local/bin/safe-lock.sh"
+    wallpaper_command: "feh --randomize --bg-fill /usr/share/backgrounds/nordic-backgrounds*"
+    autostart_apps:
+      - id: polkit_gnome
+        description: "GNOME Polkit authentication agent"
+        command: "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+        enabled: true
+      - id: unclutter
+        description: "Hide mouse cursor when idle"
+        command: "unclutter -root"
+        enabled: true
+      - id: dbus_environment
+        description: "Update D-Bus activation environment"
+        command: "dbus-update-activation-environment --systemd DISPLAY XAUTHORITY WAYLAND_DISPLAY"
+        enabled: true
+      - id: gsconnect
+        description: "GSConnect daemon"
+        command: "gjs -m /usr/share/gnome-shell/extensions/gsconnect@andyholmes.github.io/service/daemon.js"
+        enabled: true
+      - id: gghelper
+        description: "gghelper repo monitoring"
+        command: "gghelper --watch"
+        enabled: true
+
+  theme_and_appearance:
+    awesome_theme: "powerarrow-dark"
+    useless_gap_size: 12
+    border_width: 2
+
+  default_apps:
+    terminal: "tilix"
+    browser: "brave"
+    editor: "nano"
+
+  window_rules:
+    scratchpad:
+      width_ratio: 0.95
+      height_ratio: 0.5
+      top_margin: 10
+    titlebar_size: 16
+    vi_focus: false
+    cycle_prev: true
+
+  tags_and_layouts:
+    tagnames:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+    enabled_layouts:
+      - spiral
+      - tile
+      - tile.left
+      - tile.bottom
+      - tile.top
+      - floating
+    lain_parameters:
+      termfair:
+        nmaster: 3
+        ncol: 1
+      termfair_center:
+        nmaster: 3
+        ncol: 1
+      cascade_tile:
+        offset_x: 2
+        offset_y: 32
+        extra_padding: 5
+        nmaster: 5
+        ncol: 2
+
+  widgets:
+    weather:
+      refresh_interval: 3600
+      lang: "auto"
+      url_template: "https://wttr.in?format=%t+%C&lang="
+
+  session_management:
+    restore_delay: 10
+    debug_notify: false
