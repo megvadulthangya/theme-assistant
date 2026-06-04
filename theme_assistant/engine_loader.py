@@ -45,6 +45,10 @@ def load_engines(engines_yaml_path: Path) -> Dict[str, BaseEngine]:
         engine_id = entry["id"]
         module_name = entry["module"]
 
+        # Ensure fully-qualified import path under theme_assistant package
+        if not module_name.startswith("theme_assistant."):
+            module_name = "theme_assistant." + module_name
+
         try:
             module = importlib.import_module(module_name)
         except ImportError as exc:
