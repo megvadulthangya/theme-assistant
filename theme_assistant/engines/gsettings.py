@@ -64,7 +64,8 @@ class Engine(BaseEngine):
         elif isinstance(value, float):
             value = str(value)
         else:
-            value = str(value)
+            # GVariant requires string values to be explicitly quoted
+            value = f"'{value}'"
         subprocess.run(
             ["gsettings", "set", schema, key, value],
             check=False,

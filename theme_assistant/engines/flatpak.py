@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+from pathlib import Path
 from typing import Dict, Any
 
 from theme_assistant.engine_loader import BaseEngine
@@ -24,8 +25,9 @@ class Engine(BaseEngine):
         if icon_theme:
             self._run_flatpak("override", "--user", f"--env=ICON_THEME={icon_theme}")
 
-        # Always allow access to user themes directory
-        self._run_flatpak("override", "--user", "--filesystem=$HOME/.themes:ro")
+        # Always allow access to user themes directory – resolve $HOME dynamically
+        themes_path = Path.home() / ".themes"
+        self._run_flatpak("override", "--user", f"--filesystem={themes_path}:ro")
 
     def export(self, config: Dict[str, Any], export_config: Dict[str, Any]) -> None:
         pass
