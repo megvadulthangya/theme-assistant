@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib
+import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, Any
@@ -33,6 +34,7 @@ def load_engines(engines_yaml_path: Path) -> Dict[str, BaseEngine]:
     """
     Read the engines YAML manifest, dynamically import each engine module,
     validate its Engine class, and return a dictionary mapping engine ID -> instance.
+    Gracefully skips placeholder modules that do not define an Engine class.
     """
     if not engines_yaml_path.is_file():
         raise FileNotFoundError(f"Engines manifest not found: {engines_yaml_path}")
@@ -52,20 +54,26 @@ def load_engines(engines_yaml_path: Path) -> Dict[str, BaseEngine]:
         try:
             module = importlib.import_module(module_name)
         except ImportError as exc:
-            raise ImportError(
-                f"Failed to import engine module '{module_name}' for id '{engine_id}'"
-            ) from exc
+            print(
+                f"Warning: Failed to import engine module '{module_name}' for id '{engine_id}'. Skipping.",
+                file=sys.stderr,
+            )
+            continue
 
         # Every engine module must expose a class named 'Engine' that subclasses BaseEngine.
         engine_class = getattr(module, "Engine", None)
         if engine_class is None:
-            raise AttributeError(
-                f"Module '{module_name}' does not define a class named 'Engine'"
+            print(
+                f"Warning: Module '{module_name}' does not define a class named 'Engine'. Skipping.",
+                file=sys.stderr,
             )
+            continue
         if not issubclass(engine_class, BaseEngine):
-            raise TypeError(
-                f"Engine class in '{module_name}' must be a subclass of BaseEngine"
+            print(
+                f"Warning: Engine class in '{module_name}' is not a subclass of BaseEngine. Skipping.",
+                file=sys.stderr,
             )
+            continue
 
         engines[engine_id] = engine_class()
 
