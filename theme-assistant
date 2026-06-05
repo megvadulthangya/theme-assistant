@@ -11,23 +11,42 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from theme_assistant.core import run
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Apply and export a theme profile across the desktop."
     )
     parser.add_argument(
-        "profile",
-        nargs="?",
-        default="data/profiles/nordic-darker.yaml",
-        help="Path to the YAML profile file (default: data/profiles/nordic-darker.yaml)",
+        "--apply",
+        metavar="PROFILE",
+        help="Path to the YAML profile file to apply (e.g., data/profiles/nordic-darker.yaml).",
+    )
+    parser.add_argument(
+        "--engines",
+        default=None,
+        metavar="ENGINES_YAML",
+        help="Path to engines manifest YAML (default: data/engines.yaml).",
     )
     args = parser.parse_args()
-    profile_path = Path(args.profile)
+
+    if not args.apply:
+        parser.print_help()
+        return
+
+    profile_path = Path(args.apply)
     if not profile_path.is_file():
         print(f"Error: profile file not found: {profile_path}", file=sys.stderr)
         sys.exit(1)
+
     engines_yaml = PROJECT_ROOT / "data" / "engines.yaml"
+    if args.engines:
+        engines_yaml = Path(args.engines)
+    if not engines_yaml.is_file():
+        print(f"Error: engines manifest not found: {engines_yaml}", file=sys.stderr)
+        sys.exit(1)
+
     run(profile_path, engines_yaml)
+
 
 if __name__ == "__main__":
     main()
