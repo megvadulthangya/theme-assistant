@@ -29,6 +29,10 @@ class BaseEngine(ABC):
         """Remove all configuration previously written by this engine."""
         ...
 
+    def read(self) -> Dict[str, Any]:
+        """Read current state from the system. Optional for engines that support it."""
+        return {}
+
 
 def load_engines(engines_yaml_path: Path) -> Dict[str, BaseEngine]:
     """
